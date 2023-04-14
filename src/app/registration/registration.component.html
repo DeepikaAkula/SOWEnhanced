@@ -1,0 +1,110 @@
+<div class="container" style="margin-top:20px">
+    <h2>Registration</h2>
+    <div class="container">
+        <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-25">
+                    <label for="userName">User Name:</label>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="userName" name="userName" formControlName="userName"
+                        placeholder="Enter User Name" required>
+                    <div *ngIf="(f.userName.touched || submitted) && f.userName.invalid"
+                        class="text-danger">
+                        <div *ngIf="f.userName.errors.required">*User Name is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="emailId">Email ID:</label>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="emailId" name="emailId" formControlName="emailId"
+                        placeholder="Enter Email Id" required>
+                    <div *ngIf="(f.emailId.touched || submitted) && f.emailId.invalid"
+                        class="text-danger">
+                        <div *ngIf="f.emailId.errors.required">*Email ID is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="role">Role:</label>
+                </div>
+                <div class="col-75">
+                    <select id="role" name="role" formControlName="role">
+                        <option disabled>Select a role:</option>
+                        <option *ngFor="let roles of roleName" value="{{roles.roleId}}">{{roles.roleName}}</option> 
+                    </select>
+                    <div *ngIf="(f.role.touched || submitted) && f.role.invalid" class="text-danger">
+                        <div *ngIf="f.role.errors.required">*Role is required.</div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="d-flex justify-content-end mb-3">
+        <input class="form-control w-50 mr-2" type="text" maxlength="256" [(ngModel)]="searchText" (keyup)="searchFilter()" placeholder="Search by any column">
+        <button class="btn btn-success" (click)="download();" title="Download to Excel">
+          <i class="bi bi-file-earmark-arrow-down"></i> Download
+        </button>
+      </div>
+    <div class="container">
+        <div class="row tbl-fixed">
+
+            <div style="flex-grow: 1; text-align: left; margin-bottom: 10px;">
+
+            </div>
+            <table class="table table-fixed">
+                <thead>
+                    <th class="tableborder">User Name</th>
+                    <th class="tableborder">Email Id</th>
+                    <th class="tableborder">Role</th>
+                    <th class="tableborder" *ngIf="isAuthor">Actions</th>
+                </thead>
+                <tbody *ngIf="loginData">
+                    <tr *ngFor="let map of batchRecord">
+                        <td class="tableborder">{{map.loginName}}</td>
+                        <td class="tableborder">{{map.emailId}}</td>
+                        <td class="tableborder">{{map.roleName}}</td>
+                        <td class="tableborder" *ngIf="isAuthor">
+                            <i class="bi bi-pencil-square" (click)="editDetails(map)" title="Edit"></i>&nbsp;
+                            <!-- <button (click)="editDetails(map)"><img src="../../assets/icons/edit.ico"
+                                    class="icons"></button> &nbsp; -->
+                                    <i class="bi bi-trash" (click)="deleteDetails(map)" title="Delete"></i>&nbsp;
+                            <!-- <button (click)="deleteDetails(map)"><img src="../../assets/icons/delete.png"
+                                    class="icons" /></button> -->
+                                    <i *ngIf="lock" class="bi bi-lock"(click)="lockAccount()"></i>
+                                    <i *ngIf="!lock" class="bi bi-unlock"(click)="lockAccount()"></i>&nbsp;
+                                    <i class="bi bi-arrow-repeat" title="Reset" (click)="resetAccount()"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Row Count: {{rowCount}}</p>
+        <div class="row justify-content-center" style="margin-top: 10px;">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item"><button class="btn btn-info" (click)="OnPreviousClicked()"
+                            [disabled]="!(currentPage > 1)">Previous</button></li>
+                    <li class="page-item active">
+                        <label style="margin-left:10px">Page</label>
+                        <input type="number" style="width: 3.2rem; height: 1.9rem;margin-right: 5px;"
+                            value="{{currentPage}}" (change)="OnPageNumberChanged($event)" min="1" max="{{totalPages}}">
+                        <label>of
+                            {{totalPages}}
+                        </label>
+                    </li>
+                    <li class="page-item"><button class="btn btn-info" (click)="OnNextClicked()"
+                            [disabled]="(currentPage == totalPages)">Next</button></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

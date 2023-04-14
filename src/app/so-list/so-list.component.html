@@ -1,0 +1,296 @@
+<div *ngIf="resultloader">
+    <div class="blurred-result-loader">
+        <div class="loading-image"></div>
+    </div>
+</div>
+<div class="container">
+    <div class="form-group row">
+        <h3 class="header">SO Details</h3>
+        <button type="button" class="btn-close btn btn-danger" aria-label="Close" (click)="cancel()">X</button>
+      </div>
+
+    <div class="container">
+        <form [formGroup]="SowForm">
+            <div class="form-group row">
+                
+                    <label for="soName" class="col-sm-3 col-form-label"> SO Name </label>
+               
+                    <div  class="col-sm-9"> 
+                    <input type="text" class="form-control" name="soName" id="soName" formControlName="soName" placeholder="Enter SO Name"
+                        required>
+                    <div *ngIf="(f.soName.touched || submitted) && f.soName.invalid" class="text-danger">
+                        <div *ngIf="f.soName.errors.required">*SO Name is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+               
+                    <label for="jrCode" class="col-sm-3 col-form-label"> JR Code </label>
+              
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="jrCode" id="jrCode" formControlName="jrCode" placeholder="Enter JR Code"
+                        required>
+                    <div *ngIf="(f.jrCode.touched || submitted) && f.jrCode.invalid" class="text-danger">
+                        <div *ngIf="f.jrCode.errors.required">*JR Code is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                
+                    <label for="requestCreationDate" class="col-sm-3 col-form-label">Request Creation Date </label>
+                
+                <div class="col-sm-9">
+                    <input type="date" class="form-control" name="requestCreationDate" id="requestCreationDate"
+                        formControlName="requestCreationDate" placeholder="Choose requestCreationDate"
+                        style="height:40px" required>
+                    <div *ngIf="(f.requestCreationDate.touched || submitted) && f.requestCreationDate.invalid"
+                        class="text-danger">
+                        <div *ngIf="f.requestCreationDate.errors.required">*Request Creation Date is required.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+               
+                    <label for="accountId" class="col-sm-3 col-form-label">Account </label>
+               
+                <div class="col-sm-9">
+                    <select id="accountId" class="form-control" name="accountId" formControlName="accountId">
+                        <option disabled>Select an Account</option>
+                        <option *ngFor="let acc of accountList" value="{{acc.accountId}}">{{acc.accountName}}</option>
+                    </select>
+                    <div *ngIf="(f.accountId.touched || submitted) && f.accountId.invalid" class="text-danger">
+                        <div *ngIf="f.accountId.errors.required">*Account Name is required.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                
+                    <label for="technologyId" class="col-sm-3 col-form-label">Technology </label>
+               
+                <div class="col-sm-9">
+                    <select id="technologyId" class="form-control" name="technologyId" formControlName="technologyId">
+                        <option disabled>Select a Technology</option>
+                        <option *ngFor="let tech of technologyList" value="{{tech.technologyId}}">
+                            {{tech.technologyName}}</option>
+                    </select>
+                    <div *ngIf="(f.technologyId.touched || submitted) && f.technologyId.invalid" class="text-danger">
+                        <div *ngIf="f.technologyId.errors.required">*Technology is required.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                
+                    <label for="role" class="col-sm-3 col-form-label">Role/Technology Details </label>
+               
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="role" name="role" formControlName="role" placeholder="Enter role" required>
+                    <div *ngIf="(f.role.touched || submitted) && f.role.invalid" class="text-danger">
+                        <div *ngIf="f.role.errors.required">*Role is required.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                
+                    <label for="regionId" class="col-sm-3 col-form-label">Region </label>
+                
+                <div class="col-sm-9">
+                    <select id="regionId" class="form-control" name="regionId" formControlName="regionId">
+                        <option disabled>Select a Region</option>
+                        <option *ngFor="let region of regionList" value="{{region.regionId}}">{{region.region}}</option>
+                    </select>
+                    <div *ngIf="(f.regionId.touched || submitted) && f.regionId.invalid" class="text-danger">
+                        <div *ngIf="f.regionId.errors.required">*Region is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                
+                    <label for="locationId" class="col-sm-3 col-form-label">Location </label>
+                
+                <div class="col-sm-9">
+                    <select id="locationId"  class="form-control" name="locationId" formControlName="locationId">
+                        <option disabled>Select a Location</option>
+                        <option *ngFor="let location of locationList" value="{{location.locationId}}">
+                            {{location.location}}</option>
+                    </select>
+                    <div *ngIf="(f.locationId.touched || submitted) && f.locationId.invalid" class="text-danger">
+                        <div *ngIf="f.locationId.errors.required">*Location is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                
+                    <label for="targetOpenPositions" class="col-sm-3 col-form-label">Target Open Positions </label>
+                
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" id="targetOpenPositions" name="targetOpenPositions"
+                        formControlName="targetOpenPositions" placeholder="Please Enter the Number" style="height:40px"
+                        required>
+                    <div *ngIf="(f.targetOpenPositions.touched || submitted) && f.targetOpenPositions.invalid"
+                        class="text-danger">
+                        <div *ngIf="f.targetOpenPositions.errors.required">*Target Open Positions is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                
+                    <label for="positionsTobeClosed" class="col-sm-3 col-form-label">Positions To be Closed </label>
+                
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" name="positionsTobeClosed" id="positionsTobeClosed"
+                        formControlName="positionsTobeClosed" placeholder="Please Enter the Number" style="height:40px"
+                        required>
+                    <div *ngIf="(f.positionsTobeClosed.touched || submitted) && f.positionsTobeClosed.invalid"
+                        class="text-danger">
+                        <div *ngIf="f.positionsTobeClosed.errors.required">*Positions Tobe Closed is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                
+                    <label for="ustpocId" class="col-sm-3 col-form-label">USTPOC </label>
+                
+                <div class="col-sm-9">
+                    <select id="ustpocId"  class="form-control" name="ustpocId" formControlName="ustpocId">
+                        <option disabled>Select a USTPOC</option>
+                        <option *ngFor="let poc of ustPocList" value="{{poc.ustpocId}}">{{poc.ustpocName}}</option>
+                    </select>
+                    <div *ngIf="(f.ustpocId.touched || submitted) && f.ustpocId.invalid" class="text-danger">
+                        <div *ngIf="f.ustpocId.errors.required">*UST POC is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                
+                    <label for="recruiterId" class="col-sm-3 col-form-label">Recruiter </label>
+                
+                <div class="col-sm-9">
+                    <select id="recruiterId" class="form-control" name="recruiterId" formControlName="recruiterId">
+                        <option disabled>Select a Recruiter</option>
+                        <option *ngFor="let rec of recruiterList" value="{{rec.recruiterId}}">{{rec.recruiterName}}
+                        </option>
+                    </select>
+                    <div *ngIf="(f.recruiterId.touched || submitted) && f.recruiterId.invalid" class="text-danger">
+                        <div *ngIf="f.recruiterId.errors.required">*Recruiter is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                
+                    <label for="usttpmId" class="col-sm-3 col-form-label">USTTPM </label>
+                
+                <div class="col-sm-9">
+                    <select id="usttpmId" class="form-control" name="usttpmId" formControlName="usttpmId">
+                        <option disabled>Select a USTTPM</option>
+                        <option *ngFor="let tpm of ustTpmList" value="{{tpm.usttpmId}}">{{tpm.usttpmName}}</option>
+                    </select>
+                    <div *ngIf="(f.usttpmId.touched || submitted) && f.usttpmId.invalid" class="text-danger">
+                        <div *ngIf="f.usttpmId.errors.required">*UST TPM is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                
+                    <label for="dellManagerId" class="col-sm-3 col-form-label">Dell Manager </label>
+                
+                <div class="col-sm-9">
+                    <select id="dellManagerId" class="form-control" name="dellManagerId" formControlName="dellManagerId">
+                        <option disabled>Select a Dell Manager</option>
+                        <option *ngFor="let dell of dellManagerList" value="{{dell.dellManagerId}}">
+                            {{dell.dellManagerName}}</option>
+                    </select>
+                    <div *ngIf="(f.dellManagerId.touched || submitted) && f.dellManagerId.invalid" class="text-danger">
+                        <div *ngIf="f.dellManagerId.errors.required">*Dell Manager is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                
+                    <label for="statusId" class="col-sm-3 col-form-label">Status </label>
+               
+                <div class="col-sm-9">
+                    <select id="statusId" class="form-control" name="statusId" formControlName="statusId">
+                        <option disabled>Select a Status</option>
+                        <option *ngFor="let status of statusList" value="{{status.statusId}}">{{status.statusName}}
+                        </option>
+                    </select>
+                    <div *ngIf="(f.statusId.touched || submitted) && f.statusId.invalid" class="text-danger">
+                        <div *ngIf="f.statusId.errors.required">*Status is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                
+                    <label for="band" class="col-sm-3 col-form-label">Band </label>
+                
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="band" name="band" formControlName="band" placeholder="Enter band" required>
+                    <div *ngIf="(f.band.touched || submitted) && f.band.invalid" class="text-danger">
+                        <div *ngIf="f.band.errors.required">*Band is required.</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group row">
+                
+                    <label for="projectId" class="col-sm-3 col-form-label">Project Id </label>
+                
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="projectId" name="projectId" formControlName="projectId"
+                        placeholder="Enter projectId">
+                    <div *ngIf="(f.projectId.touched || submitted) && f.projectId.invalid" class="text-danger">
+                        <div *ngIf="f.band.errors.required">*Project Id is required.</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group row">
+                
+                    <label for="accountManager" class="col-sm-3 col-form-label">Account Manager </label>
+               
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="accountManager" name="accountManager" formControlName="accountManager"
+                        placeholder="Enter accountManager" required>
+                    <div *ngIf="(f.accountManager.touched || submitted) && f.accountManager.invalid"
+                        class="text-danger">
+                        <div *ngIf="f.accountManager.errors.required">*Account Manager is required.</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group row">
+                
+                    <label for="externalResource" class="col-sm-3 col-form-label">External Resource </label>
+                
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="externalResource" name="externalResource" formControlName="externalResource"
+                        placeholder="Enter externalResource">
+                </div>
+            </div>
+            <div class="form-group row">
+                
+                    <label for="internalResource" class="col-sm-3 col-form-label">Internal Resource </label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="internalResource" name="internalResource" formControlName="internalResource"
+                        placeholder="Enter internalResource">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <button  type="reset"class="btn btn-danger" (click)="cancel()">Cancel</button>
+        
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-success"  (click)="onSubmit()">Submit</button>
+                </div>
+            </div>
+            </div>
+            
+
+        </form>
+    </div>
+</div>

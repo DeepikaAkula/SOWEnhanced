@@ -1,0 +1,86 @@
+h2 {
+  text-align: center;
+  caret-color: transparent; /* Add this line to stop blinking cursor */
+
+}
+.container{
+  caret-color: transparent; /* Add this line to stop blinking cursor */
+
+}
+
+.cards_wrap {
+ 
+  width: 200%;
+  display: flex;
+  justify-content:space-evenly;
+  flex-wrap: wrap;
+  float:auto;
+  
+ 
+}
+
+.cards_wrap .card_inner {
+  
+  background: #cccccc00;
+  padding: 2px 2px;
+  min-width: 280px;
+  min-height: 400px;
+  max-height: 250px;
+  width: 10%;
+  white-space: nowrap;
+  overflow-y: scroll;
+  height: fit-content;
+  border: solid 1px black;
+  
+}
+
+.card-header{
+ text-align: center;
+  text-transform: uppercase;
+  font-size: 25px;
+  content: fixed;
+  white-space: nowrap;
+  min-width: 280px;
+  width: 10%;
+  background: #cccccccf;
+  border: solid 1px black;
+
+}
+
+.dropdown {
+  background-color: #ccc;
+  border-radius: 2px;
+  cursor: pointer;
+}
+span{
+  float: right; 
+  margin-right: 5px;
+  white-space: nowrap;
+}
+label{
+  white-space: nowrap;
+}
+#colonSpan{
+  align-items: center;
+}
+.cards_wrap .card_inner::-webkit-scrollbar{
+  
+  display:none;
+}
+.card_item {
+  flex-basis: calc(33.33% - 20px);
+  margin: 10px;
+}
+.card-content:hover{
+background-color: #cccccc4d;
+}
+
+@media screen and (max-width: 768px) {
+  .cards_wrap {
+    flex-direction: column;
+  }
+  
+  .card_item {
+    flex-basis: calc(100% - 20px);
+  }
+}

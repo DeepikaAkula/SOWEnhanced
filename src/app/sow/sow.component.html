@@ -1,0 +1,137 @@
+<div class="container" style="margin-top:20px">
+    <h2>SO Details</h2>
+    <div class="row">
+        <div class="col-md-3 mb-3">
+          <button routerLink="/soList" routerLinkActive="active" class="btn btn-primary">
+            <span class="icons me-1">Add</span>
+          </button>
+        </div>
+        <div class="col-md-3 mb-3">
+          <input type="text" class="form-control me-3" maxlength="256" [(ngModel)]="searchText" (keyup)="searchFilter()" placeholder="Search by any column">
+        </div>    
+        <div class="col-md-3 mb-3">
+          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#downloadModal">
+            <span class="bi bi-file-earmark-arrow-down"></span> Download
+          </button>
+        </div> 
+      </div>      
+  
+
+<!-- Add a modal dialog box for date selection -->
+<div class="modal" tabindex="-1" role="dialog" id="downloadModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Download Excel File</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">From Date:</label>
+               
+                <input type="date" class="form-control" [(ngModel)]="fromDate" max="{{this.startDate}}">
+              
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">To Date:</label>
+                <input type="date" class="form-control" [(ngModel)]="endDate" max="{{this.startDate}}" min="{{this.fromDate}}">
+              </div>  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="download()">Download</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+ 
+      
+      
+      
+    
+    <div class="container tbl-container">
+        <div class="row tbl-fixed">
+
+            <table class="table-striped table-condensed table-fixed">
+                <thead>
+                    <th class="tableborder">SO Name</th>
+                    <th class="tableborder">JR</th>
+                    <th class="tableborder">Req Creation Date</th>
+                    <th class="tableborder">Account</th>
+                    <th class="tableborder">Technology</th>
+                    <th class="tableborder">Role Details</th>
+                    <th class="tableborder">Region</th>
+                    <th class="tableborder">Location</th>
+                    <th class="tableborder">Target Open Positions</th>
+                    <th class="tableborder">Positions to be closed</th>
+                    <th class="tableborder">UST POC</th>
+                    <th class="tableborder">Recruiter</th>
+                    <th class="tableborder">UST TPM</th>
+                    <th class="tableborder">Dell Manager</th>
+                    <th class="tableborder">Status</th>
+                    <th class="tableborder">Band</th>
+                    <th class="tableborder">Project Id</th>
+                    <th class="tableborder">AM</th>
+                    <th class="tableborder">External Resource</th>
+                    <th class="tableborder">Internal Resource</th>
+                    <th class="tableborder" *ngIf="isAuthor">Actions</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of batchRecord">
+                        <td class="tableborder">{{data.soName}}</td>
+                        <td class="tableborder">{{data.jrCode}}</td>
+                        <td class="tableborder">{{data.requestCreationDate | date: 'MM/dd/yyyy'}}</td>
+                        <td class="tableborder">{{data.accountName}}</td>
+                        <td class="tableborder">{{data.technologyName}}</td>
+                        <td class="tableborder">{{data.role}}</td>
+                        <td class="tableborder">{{data.region}}</td>
+                        <td class="tableborder">{{data.location}}</td>
+                        <td class="tableborder">{{data.targetOpenPositions}}</td>
+                        <td class="tableborder">{{data.positionsTobeClosed}}</td>
+                        <td class="tableborder">{{data.ustpocName}}</td>
+                        <td class="tableborder">{{data.recruiterName}}</td>
+                        <td class="tableborder">{{data.usttpmName}}</td>
+                        <td class="tableborder">{{data.dellManagerName}}</td>
+                        <td class="tableborder">{{data.statusName}}</td>
+                        <td class="tableborder">{{data.band}}</td>
+                        <td class="tableborder">{{data.projectId}}</td>
+                        <td class="tableborder">{{data.accountManager}}</td>
+                        <td class="tableborder">{{data.externalResource}}</td>
+                        <td class="tableborder">{{data.internalResource}}</td>
+                        <td class="tableborder" *ngIf="isAuthor">
+                            <i class="bi bi-pencil-square" (click)="editDetails(data)" title="Edit"></i>&nbsp;
+                            <!-- <button (click)="editDetails(data)"><img src="../../assets/icons/edit.ico"
+                                    class="icons"></button> &nbsp; -->
+                                    <i class="bi bi-trash" (click)="deleteDetails(data)" title="Delete"></i>
+                            <!-- <button (click)="deleteDetails(data)"><img src="../../assets/icons/delete.png"
+                                    class="icons" /></button> -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Row Count: {{rowCount}}</p>
+        <div class="row justify-content-center" style="margin-top: 10px;">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item"><button class="btn btn-info" (click)="OnPreviousClicked()"
+                            [disabled]="!(currentPage > 1)">Previous</button></li>
+                    <li class="page-item active">
+                        <label style="margin-left:10px">Page</label>
+                        <input type="number" style="width: 3.0rem; height: 1.9rem;margin-right: 5px;"
+                            value="{{currentPage}}" (change)="OnPageNumberChanged($event)" min="1" max="{{totalPages}}">
+                        <label>of
+                            {{totalPages}}
+                        </label>
+                    </li>
+                    <li class="page-item"><button class="btn btn-info" (click)="OnNextClicked()"
+                            [disabled]="(currentPage == totalPages)">Next</button></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

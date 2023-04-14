@@ -1,0 +1,88 @@
+<div class="container" style="margin-top:20px">
+    <h2>Technology</h2>
+    <div class="container">
+        <form [formGroup]="techForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-25">
+                    <label for="technologyName">Technology Name:</label>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="technologyName" name="technologyName" formControlName="technologyName"
+                        placeholder="Enter Technology Name" required>
+                    <div *ngIf="(f.technologyName.touched || submitted) && f.technologyName.invalid"
+                        class="text-danger">
+                        <div *ngIf="f.technologyName.errors.required">*Technology Name is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="sowId">Domain:</label>
+                </div>
+                <div class="col-75">
+                    <select id="domainId" name="domainId" formControlName="domainId">
+                        <option disabled>Select a Domain:</option>
+                        <option *ngFor="let domain of DomainList" value="{{domain.domainId}}">{{domain.domainName}}
+                        </option>
+                    </select>
+                    <div *ngIf="(f.domainId.touched || submitted) && f.domainId.invalid" class="text-danger">
+                        <div *ngIf="f.domainId.errors.required">*Domain is required.</div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="d-flex justify-content-end mb-3">
+        <input class="form-control w-50 mr-2" type="text" maxlength="256" [(ngModel)]="searchText" (keyup)="searchFilter()" placeholder="Search by any column">
+        <button class="btn btn-success" (click)="download();" title="Download to Excel">
+          <i class="bi bi-file-earmark-arrow-down"></i> Download
+        </button>
+      </div>
+    <div class="container">
+        <div class="row tbl-fixed">
+            <table class="table table-fixed">
+                <thead>
+                    <!-- <th class="tableborder">Technology Id</th> -->
+                    <th class="tableborder">Technology Name</th>
+                    <th class="tableborder">Domain</th>
+                    <th class="tableborder" *ngIf="isAuthor">Actions</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let tech of batchRecord">
+                        <!-- <td class="tableborder">{{tech.technologyId}}</td> -->
+                        <td class="tableborder">{{tech.technologyName}}</td>
+                        <td class="tableborder">{{tech.domainName}}</td>
+                        <td class="tableborder" *ngIf="isAuthor">
+                            <i class="bi bi-pencil-square" (click)="editDetails(tech)"title="Edit"></i>
+                            <!-- <button (click)="editDetails(tech)"><img src="../../assets/icons/edit.ico"
+                                    class="icons"></button> &nbsp; -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Row Count: {{rowCount}}</p>
+        <div class="row justify-content-center" style="margin-top: 10px;">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item"><button class="btn btn-info" (click)="OnPreviousClicked()"
+                            [disabled]="!(currentPage > 1)">Previous</button></li>
+                    <li class="page-item active">
+                        <label style="margin-left:10px">Page</label>
+                        <input type="number" style="width: 3.2rem; height: 1.9rem;margin-right: 5px;"
+                            value="{{currentPage}}" (change)="OnPageNumberChanged($event)" min="1" max="{{totalPages}}">
+                        <label>of
+                            {{totalPages}}
+                        </label>
+                    </li>
+                    <li class="page-item"><button class="btn btn-info" (click)="OnNextClicked()"
+                            [disabled]="(currentPage == totalPages)">Next</button></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
